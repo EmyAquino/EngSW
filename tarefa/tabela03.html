@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quantidade de Jogos por Equipe</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #d8f3dc, #b7e4c7);
+      color: #081c15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    h2 {
+      font-size: 48px;
+      color: #1b4332;
+      margin-bottom: 40px;
+      text-align: center;
+      background-color: #95d5b2;
+      padding: 15px 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 700px;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    thead {
+      background-color: #2d6a4f;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 18px;
+      text-align: center;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #d8f3dc;
+      transition: background 0.3s;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f0fdf4;
+    }
+
+    tbody tr:hover {
+      background-color: #c7f9cc;
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 36px;
+        padding: 10px 20px;
+      }
+
+      table {
+        font-size: 14px;
+      }
+
+      th, td {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+<h2>Mundial de Clubes FIFA 2025</h2>
+<h2>Quantidade de jogos por equipe</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equipe</th>
+      <th>Quantidade de Jogos</th>
+    </tr>
+  </thead>
+  <tbody id="tabela-corpo">
+  </tbody>
+</table>
+
+<script>
+  fetch("http://projetos.farroupilha.ifrs.edu.br:35005/~projetoMyCup/api/partidas")
+    .then(res => res.json())
+    .then(dados => {
+      const tbody = document.getElementById('tabela-corpo');
+      tbody.innerHTML = '';
+
+      dados.forEach(item => {
+        const tr = document.createElement('tr');
+        const tdEquipe = document.createElement('td');
+        const tdQtd = document.createElement('td');
+
+        tdEquipe.textContent = item.equipe;
+        tdQtd.textContent = item.quantidade_jogos;
+
+        tr.appendChild(tdEquipe);
+        tr.appendChild(tdQtd);
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => {
+      console.error("Erro ao carregar os dados:", err);
+    });
+</script>
+
+</body>
+</html>

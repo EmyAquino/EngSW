@@ -1,0 +1,6 @@
+Tarefa:
+
+Utilizar a API aberta acessível pela URL: http://projetos.farroupilha.ifrs.edu.br:35005/~projetoMyCup/api/partidas via GET, a qual retornará a quantidades de jogos disputados por cada equipe no Mundial de Clubes da FIFA 2025 e construir dois recursos front-end para consumir os dados de retorno deste Endpoint para:
+
+1. Mostrar os dados recebidos no formato tabular com estilo;
+2. Mostrar os dados recebidos num formato gráfico à sua escolha (ex. barras, colunas, linhas, pizza, ...)

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados de jogos - Supermundial de Clubes</title>
+</head>
+<body>
+    <h2 style="text-align: center;">Mundial de Clubes FIFA 2025</h2>
+    <h4 style="text-align: center;">Jogos disputados por equipes</h4>
+    <canvas id="myChart"></canvas>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        const url = "http://projetos.farroupilha.ifrs.edu.br:35005/~projetoMyCup/api/partidas";
+        const times = []
+        const numJogos = []
+        const barColors = [
+                "#004170",
+                "#001489",
+                "#9E1B32",
+                "#FFFFFF",
+                "#005BAC",
+                "#C1B68F",
+                "#F7D117",
+                "#DC052D",
+                "#002F6C",
+                "#6CABDD",
+                "#1E1E1E",
+                "#A50000",
+                "#E41134",
+                "#000000",
+                "#FFB6C1",
+                "#000000",
+                "#FFD700",
+                "#00386B",
+                "#005C5C",
+                "#1C2D64",
+                "#E60026",
+                "#C8102E",
+                "#000000",
+                "#D71920",
+                "#D6001C",
+                "#F7B500",
+                "#002F6C",
+                "#C8102E",
+                "#0033A0",
+                "#002147",
+                "#A50044",
+                "#6F2DA8"
+                ];
+
+
+        fetch(url, {
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(json => {
+            json.forEach(element => {
+                const valores = Object.values(element);
+                times.push(valores[0]);
+                numJogos.push(valores[1]);
+            });
+            //CRIAÇÃO DO GRÁFICO
+            new Chart("myChart", {
+                type: "pie",
+                data: {
+                    labels: times,
+                    datasets: [
+                    {
+                        label: "Partidas",
+                        backgroundColor: barColors,
+                        data: numJogos,
+                    }]
+                }
+            });
+        })
+    </script>
+</body>
+</html>

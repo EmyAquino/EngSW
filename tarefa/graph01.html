@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Desempenho do Jogador</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div>
+    <h3 style="text-align: center;">Mundial de Clubes FIFA 2025</h3>
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <script>
+    const times = [];
+    const numJogos = [];
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    fetch("http://projetos.farroupilha.ifrs.edu.br:35005/~projetoMyCup/api/partidas", {
+      method: "GET",
+    })
+    .then(response => response.json()) 
+    .then(json => {
+      json.forEach(element => {
+        const valores = Object.values(element);
+        times.push(valores[0]);  
+        numJogos.push(valores[1]); 
+      });
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: times,  
+          datasets: [
+            {
+              label: 'Número de Jogos',
+              data: numJogos, 
+              backgroundColor: 'rgba(54, 162, 235, 0.6)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Número de Jogos por Equipe'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    })
+    .catch(error => {
+      console.error("Erro na requisição ou no processamento dos dados:", error);
+      alert("Erro ao buscar ou processar os dados.");
+    });
+  </script>
+</body>
+</html>

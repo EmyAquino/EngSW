@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quantidade de Jogos por Equipe</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #ffd6e8, #ffe6f0);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #4a004a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin: 40px 20px 20px;
+      text-align: center;
+      color: #d81b60;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1000px;
+      padding: 30px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      width: 260px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .equipe {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #880e4f;
+    }
+
+    .jogos {
+      font-size: 16px;
+      color: #6a1b9a;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Quantidade de Jogos por Equipe</h1>
+
+<div class="container" id="cards-container">
+  <!-- Cards serão inseridos aqui -->
+</div>
+
+<script>
+  fetch("http://projetos.farroupilha.ifrs.edu.br:35005/~projetoMyCup/api/partidas")
+    .then(res => res.json())
+    .then(dados => {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';  // limpa os dados anteriores, se houver
+
+      dados.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const nomeEquipe = document.createElement('div');
+        nomeEquipe.className = 'equipe';
+        nomeEquipe.textContent = item.equipe;
+
+        const quantidade = document.createElement('div');
+        quantidade.className = 'jogos';
+        quantidade.textContent = `Jogos disputados: ${item.quantidade_jogos}`;
+
+        card.appendChild(nomeEquipe);
+        card.appendChild(quantidade);
+        container.appendChild(card);
+      });
+    })
+    .catch(err => {
+      console.error("Erro ao carregar os dados:", err);
+      document.getElementById('cards-container').innerHTML = '<p>Erro ao carregar dados.</p>';
+    });
+</script>
+
+</body>
+</html>

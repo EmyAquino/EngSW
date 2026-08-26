@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipes e Jogos</title>
+  <style>
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      max-width: 800px;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    th {
+      background-color: #3f72af;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f0f0f0;
+    }
+
+    tr:hover {
+      background-color: #f7b7a3;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div>
+    <h1>Mundial de Clubes FIFA 2025</h1>
+    <h2>Equipes e Quantidade de Jogos</h2>
+    <table id="tabela">
+      <thead>
+        <tr>
+          <th>Equipe</th>
+          <th>Jogos</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <p id="erro" class="error-message" style="display: none;"></p>
+  </div>
+
+  <script>
+    const tabelaBody = document.querySelector('#tabela tbody');
+    const mensagemErro = document.getElementById('erro');
+
+    function criarLinhaTabela({ equipe, quantidade_jogos }) {
+      const linha = document.createElement('tr');
+
+      const celulaEquipe = document.createElement('td');
+      celulaEquipe.textContent = equipe;
+
+      const celulaJogos = document.createElement('td');
+      celulaJogos.textContent = quantidade_jogos;
+
+      linha.append(celulaEquipe, celulaJogos);
+      return linha;
+    }
+
+    function preencherTabela(dados) {
+      if (!dados || dados.length === 0) {
+        mensagemErro.style.display = 'block';
+        mensagemErro.textContent = 'Nenhum dado disponível.';
+        return;
+      }
+
+      dados.forEach(dado => {
+        const linha = criarLinhaTabela(dado);
+        tabelaBody.appendChild(linha);
+      });
+    }
+
+    function exibirErro(mensagem) {
+      mensagemErro.style.display = 'block';
+      mensagemErro.textContent = mensagem;
+    }
+
+    async function carregarDados() {
+      try {
+        const resposta = await fetch('http://projetos.farroupilha.ifrs.edu.br:35005/~projetoMyCup/api/partidas');
+        
+        if (!resposta.ok) {
+          throw new Error('Erro ao acessar a API.');
+        }
+
+        const dados = await resposta.json();
+        preencherTabela(dados);
+      } catch (erro) {
+        exibirErro('Erro ao carregar dados da API: ' + erro.message);
+      }
+    }
+
+    carregarDados();
+  </script>
+
+</body>
+</html>
