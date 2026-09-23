@@ -1,0 +1,1 @@
+É um padrão estrutural do catálogo GoF (Gang of Four), ele permite que um objeto seja modificado, com novos comportamentos sem alterar o comportamento do objeto original
